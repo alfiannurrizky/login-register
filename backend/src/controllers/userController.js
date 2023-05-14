@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const { User } = require('../models')
 const { validationResult } = require('express-validator')
+const { emailSend } = require('../middlewares/sendEmail')
 require('dotenv').config()
 
 
@@ -36,10 +37,13 @@ const register = async (req,res) => {
         password: passwordHash,
     })
 
+    let sendEmail = await emailSend(req.body.email)
+
     return res.status(201).json({
         'success': true,
         'message': 'register successfully'
     })
+
 }
 
 const login = async (req,res) => {
