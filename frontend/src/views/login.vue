@@ -3,6 +3,29 @@
 import axios from 'axios'
 import { ref } from 'vue'
 
+const email = ref('')
+const password  = ref('')
+const user = ref([])
+const success = ref(false)
+
+const login = async () => {
+  
+  let formData = new FormData
+
+  formData.append('email', email.value)
+  formData.append('password', password.value)
+
+  await axios.post('http://127.0.0.1:4500/api/login', formData)
+    .then(res => {
+      success.value = true
+    })
+    .catch(err => {
+      if(err.response.status == 401)
+      {
+        alert(err.response.data.message)
+      }
+    })
+}
 </script>
 
 <template>
@@ -15,27 +38,31 @@ import { ref } from 'vue'
       </div>
       <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
         <h1>LOGIN</h1> <br>
-        <form>
-          <!-- Email input -->
+
+        <div class="alert alert-success" v-if="success" role="alert">
+          Login Success
+        </div>
+
+        <form @submit.prevent="login()">
+      
           <div class="form-outline mb-4">
-            <input type="email" id="form1Example13" class="form-control form-control-lg" placeholder="Email"/>
+            <input type="email" id="form1Example13" class="form-control form-control-lg" v-model="email" placeholder="Email"/>
           </div>
 
-          <!-- Password input -->
+        
           <div class="form-outline mb-4">
-            <input type="password" id="form1Example23" class="form-control form-control-lg" placeholder="Password"/>
+            <input type="password" id="form1Example23" class="form-control form-control-lg" v-model="password" placeholder="Password"/>
           </div>
 
           <div class="d-flex justify-content-around align-items-center mb-4">
-            <!-- Checkbox -->
+  
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" id="form1Example3" checked />
               <label class="form-check-label" for="form1Example3"> Remember me </label>
             </div>
-            <router-link :to="{ name: 'register' }">Don't have any account??</router-link>
+            <router-link :to="{ name: 'register' }">Don't have any account?</router-link>
           </div>
 
-          <!-- Submit button -->
           <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
 
         </form>
