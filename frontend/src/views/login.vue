@@ -57,9 +57,9 @@ const login = async () => {
           <div class="d-flex justify-content-around align-items-center mb-4">
   
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="form1Example3" checked />
-              <label class="form-check-label" for="form1Example3"> Remember me </label>
+          
             </div>
+            
             <router-link :to="{ name: 'register' }">Don't have any account?</router-link>
           </div>
 
